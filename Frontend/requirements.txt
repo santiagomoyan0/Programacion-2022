@@ -1,0 +1,7 @@
+flask
+python-dotenv
+flask-login
+flask_wtf
+email_validator
+requests
+PyJWT==2.1.0

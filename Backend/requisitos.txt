@@ -1,0 +1,13 @@
+Poemas : get(traer todos los poemas)
+         Post(Introducir poema a la aplicacion)
+Poema : Get( Traer poema por id)
+        Delete(Borrar algun poema seleccionado)
+
+Calificaciones: Get( traer todas las calificaciones)
+                Post (Añadir calificaciones)
+Calificacion : Delete(Borrar calificacion)
+                Get (Traer calificacion por id)
+Usuarios: Get (Traer todos los usuarios)
+        Post(Añadir Usuario al sistema)
+Usuario: Get(Traer algun usuario por id)
+        Delete(Borrar usuario del sistema)
