@@ -1,39 +1,35 @@
 from flask_restful import Resource
-from flask import request
+from flask import request, jsonify
+from .. import db
+from main.models import CalificacionModel
 
-CALIFICACIONES = {
+"""CALIFICACIONES = {
     1: {'Calificacion': 'Nueve'},
     2: {'Calificacion': 'Ocho'},
     3: {'Calificacion': 'Siete'}
 
-}
+}"""
 
 class Calificacion(Resource):
     def get(self, id):
-        if int(id) in CALIFICACIONES:
-            return CALIFICACIONES[int(id)]
-        return '', 404
+        calificacion = db.session.query(CalificacionModel).get_or_404(id)
+        return calificacion.to_json()
 
     def delete(self, id):
-        if int(id) in CALIFICACIONES:
-            del CALIFICACIONES[int(id)]
-            return '', 204
-        return '', 404
+        calificacion = db.session.query(CalificacionModel).get_or_404(id)
+        db.session.delete(calificacion)
+        db.session.commit()
 
-    def put(self, id):
-        if int(id) in CALIFICACIONES:
-            calificacion = CALIFICACIONES[int(id)]
-            #Obtengo los datos de la solicitud
-            data = request.get_json()
-            calificacion.update(data)
-            return calificacion, 201
-        return '', 404
+    
 
 class Calificaciones(Resource):
     def get(self):
-        return CALIFICACIONES
+        calificaciones = db.session.query(CalificacionModel).all()
+        return jsonify([calificacion.to_json_short() for calificacion in calificaciones])
+
+
     def post(self):
-        calificacion= request.get_json()
-        id = int(max(CALIFICACIONES.keys())) + 1
-        CALIFICACIONES[id] = calificacion
-        return CALIFICACIONES[id], 201
+        calificacion = CalificacionModel.from_json(request.get_json())
+        db.session.add(calificacion)
+        db.session.commit()
+        return calificacion.to_json(), 201
