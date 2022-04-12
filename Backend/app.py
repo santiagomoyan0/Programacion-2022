@@ -8,5 +8,6 @@ app = create_app()
 #Esto permite acceder a las propiedades de la aplicación en cualquier parte del sistema
 app.app_context().push()
 
-if __name__ == '__main__':    
+if __name__ == '__main__':
+    db.create_all()
     app.run(debug = True, port = os.getenv("PORT"))
