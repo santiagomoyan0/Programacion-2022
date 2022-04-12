@@ -2,15 +2,25 @@ import os
 from flask import Flask
 from dotenv import load_dotenv
 from flask_restful import Api
-import main.resources as resources
+from flask_sqlalchemy import SQLAlchemy
+
 
 api = Api()
-#Método que inicializará todos los módulos y devolverá la aplicación
+#Inicializar SQLAlchemy
+db = SQLAlchemy()
+
 def create_app():
-    #Inicializar Flask
     app = Flask(__name__)
-    #Cargar variables de entorno
     load_dotenv()
+    if not os.path.exists(os.getenv('DATABASE_PATH')+os.getenv('DATABASE_NAME')):
+        os.mknod(os.getenv('DATABASE_PATH')+os.getenv('DATABASE_NAME'))
+
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    #Url de configuración de base de datos
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////'+os.getenv('DATABASE_PATH')+os.getenv('DATABASE_NAME')
+    db.init_app(app)
+
+    import main.resources as resources
     api.add_resource(resources.UsuariosResource, '/usuarios')
     api.add_resource(resources.UsuarioResource, '/usuario/<id>')
     api.add_resource(resources.PoemasResource, '/poemas')
