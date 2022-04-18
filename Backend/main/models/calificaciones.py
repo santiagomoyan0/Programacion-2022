@@ -7,7 +7,7 @@ class Calificacion(db.Model):
     puntaje = db.Column(db.Integer, nullable=False)
     comentario = db.Column(db.String(100), nullable=False)
     def __repr__(self):
-        return '< Poema: %r %r >' % (self.puntaje, self.comentario)
+        return '< Poema: %r %r >' % (self.puntaje, self.comentario, self.usuarioid, self.poemaid)
     #Convertir objeto en JSON
     def to_json(self):
         calificacion_json = {
@@ -21,8 +21,10 @@ class Calificacion(db.Model):
     def to_json_short(self):
         calificacion_json = {
             'id': self.id,
-            'puntaje': str(self.puntaje),
-            'comentario': str(self.comentario)
+            'puntaje': int(self.puntaje),
+            'comentario': str(self.comentario),
+            'usuarioid': int(self.usuarioid),
+            'poemaid': int(self.poemaid)
 
         }
         return calificacion_json

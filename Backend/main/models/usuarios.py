@@ -32,7 +32,11 @@ class Usuario(db.Model):
         id = usuario_json.get('id')
         nombre = usuario_json.get('nombre')
         contraseña = usuario_json.get('contraseña')
+        email = usuario_json.get('email')
+        rol = usuario_json.get('rol')
         return Usuario(id=id,
                     nombre=nombre,
                     contraseña=contraseña,
+                    email=email,
+                    rol=rol
                     )

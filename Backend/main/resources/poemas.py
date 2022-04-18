@@ -39,6 +39,6 @@ class Poemas(Resource):
 
     def post(self):
         poema = PoemaModel.from_json(request.get_json())
-        db.session.add(Poema)
+        db.session.add(poema)
         db.session.commit()
         return poema.to_json(), 201

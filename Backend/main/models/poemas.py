@@ -1,20 +1,22 @@
 from .. import db
 from datetime import datetime
+from sqlalchemy.sql import func
 class Poema(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     usuarioid = db.Column(db.Integer, nullable=False)
     titulo = db.Column(db.String(100), nullable=False)
     cuerpo = db.Column(db.String(100), nullable=False)
-    fecha_hora = db.Column(db.DateTime, nullable=False, default = datetime.now())
+    fecha_hora = db.Column(db.DateTime(timezone=True), default=func.now())
     def __repr__(self):
-        return '< Poema: %r %r >' % (self.titulo, self.cuerpo, self.fecha_hora)
+        return '< Poema: %r %r >' % (self.usuarioid, self.titulo, self.cuerpo, self.fecha_hora)
     #Convertir objeto en JSON
     def to_json(self):
         poema_json = {
             'id': self.id,
             'titulo': str(self.titulo),
             'cuerpo': str(self.cuerpo),
-            'fecha_hora': self.fecha_hora.strftime('%Y-%m-%d')
+            'usuarioid': int(self.usuarioid),
+        
             
         }
         return poema_json
@@ -34,10 +36,8 @@ class Poema(db.Model):
         usuarioid = poema_json.get('usuarioid')
         titulo = poema_json.get('titulo')
         cuerpo = poema_json.get('cuerpo')
-        fecha_hora = datetime.strptime(poema_json.get('fecha_hora'), '%Y-%m-%d')
         return Poema(id=id,
                     usuarioid=usuarioid,
                     titulo=titulo,
-                    cuerpo=cuerpo,
-                    fecha_hora=fecha_hora
+                    cuerpo=cuerpo
                     )
