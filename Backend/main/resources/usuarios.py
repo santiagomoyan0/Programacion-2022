@@ -3,11 +3,7 @@ from flask import request, jsonify
 from .. import db
 from main.models import UsuarioModel
 
-"""USUARIOS = {
-    1: {'nombre': 'anon3221'},
-    2: {'nombre': '6ixn1ne'},
-    3: {'nombre': 'anon232123'}
-} """
+
 
 class Usuario(Resource):
     def get(self, id):

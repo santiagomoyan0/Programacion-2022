@@ -25,7 +25,7 @@ class Calificacion(Resource):
 class Calificaciones(Resource):
     def get(self):
         calificaciones = db.session.query(CalificacionModel).all()
-        return jsonify([calificacion.to_json_short() for calificacion in calificaciones])
+        return jsonify([calificacion.to_json() for calificacion in calificaciones])
 
 
     def post(self):
