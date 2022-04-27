@@ -3,12 +3,6 @@ from flask import request, jsonify
 from .. import db
 from main.models import PoemaModel
 
-"""POEMAS = {
-    1: {'Titulo': 'queue'},
-    2: {'Titulo': 'laliga'},
-    3: {'Titulo': 'la esperanza'}
-
-}"""
 
 class Poema(Resource):
     def get(self, id):
@@ -27,15 +21,25 @@ class Poema(Resource):
 class Poemas(Resource):
     def get(self):
         poemas = db.session.query(PoemaModel).all()
-        return jsonify([poema.to_json_short() for poema in poemas])
+        page = 1
+        per_page = 10
+        if request.get_json():
+            filters = request.get_json().items()
+            for key, value in filters:
+                if key =="page":
+                    page = int(value)
+                if key == "per_page":
+                    per_page = int(value)
+        poemas = poemas.paginate(page, per_page, True, 30)
+        return jsonify({ 'poemas': [poema.to_json() for poema in poemas.items],
+                  'total': poemas.total,
+                  'pages': poemas.pages,
+                  'page': page
+                  })
 
-    """
-            list_prof = []
-            for professor in professors:
-                list_prof.append(professor.to_json())
-            return jsonify(list_prof)
-    """
+    
 
+   
 
     def post(self):
         poema = PoemaModel.from_json(request.get_json())
