@@ -1,4 +1,5 @@
 from .. import db
+from werkzeug.security import generate_password_hash, check_password_hash
 
 class Usuario(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -8,6 +9,19 @@ class Usuario(db.Model):
     rol = db.Column(db.String(100), nullable=False)
     poemas = db.relationship("Poema", back_populates="usuario",cascade="all, delete-orphan")
     calificaciones = db.relationship("Calificacion", back_populates="usuario", cascade="all, delete-orphan")
+    @property
+    def plain_password(self):
+        raise AttributeError('Password cant be read')
+    #Setter de la contraseña toma un valor en texto plano
+    # calcula el hash y lo guarda en el atributo password
+    @plain_password.setter
+    def plain_password(self, password):
+        self.password = generate_password_hash(password)
+    #Método que compara una contraseña en texto plano con el hash guardado en la db
+    def validate_pass(self,password):
+        return check_password_hash(self.password, password)
+
+
     def __repr__(self):
         return '< Usuario: %r %r >' % (self.nombre, self.contraseña, self.email, self.rol)
     #Convertir objeto en JSON

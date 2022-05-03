@@ -6,6 +6,8 @@ from main.models import CalificacionModel
 from main.models import PoemaModel
 from sqlalchemy import func
 from datetime import *
+from flask_jwt_extended import jwt_required, get_jwt_identity
+from main.auth.decoradores import admin_required
 
 class Usuario(Resource):
     def get(self, id):
