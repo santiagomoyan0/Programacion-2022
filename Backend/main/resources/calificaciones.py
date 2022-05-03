@@ -3,13 +3,6 @@ from flask import request, jsonify
 from .. import db
 from main.models import CalificacionModel
 
-"""CALIFICACIONES = {
-    1: {'Calificacion': 'Nueve'},
-    2: {'Calificacion': 'Ocho'},
-    3: {'Calificacion': 'Siete'}
-
-}"""
-
 class Calificacion(Resource):
     def get(self, id):
         calificacion = db.session.query(CalificacionModel).get_or_404(id)
@@ -24,9 +17,8 @@ class Calificacion(Resource):
 
 class Calificaciones(Resource):
     def get(self):
-        calificaciones = db.session.query(CalificacionModel).all()
+        calificaciones = db.session.query(CalificacionModel)
         return jsonify([calificacion.to_json() for calificacion in calificaciones])
-
 
     def post(self):
         calificacion = CalificacionModel.from_json(request.get_json())

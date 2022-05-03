@@ -15,9 +15,12 @@ class Usuario(db.Model):
         usuario_json = {
             'id': self.id,
             'nombre': str(self.nombre),
-            'contraseña': str(self.contraseña),
-            'email': str(self.email),
-            'rol': str(self.rol),
+            #'contraseña': str(self.contraseña),
+            #'email': str(self.email),
+            #'rol': str(self.rol),
+            'num_poemas': len(self.poemas),
+            'num_calificaciones': len(self.calificaciones),
+            'poemas':[poema.to_json_short() for poema in self.poemas],
             
         }
         return usuario_json
@@ -29,7 +32,6 @@ class Usuario(db.Model):
 
         }
         return usuario_json
-
 
     def to_json_complete(self):
         poemas = [poema.to_json() for poema in self.poemas]

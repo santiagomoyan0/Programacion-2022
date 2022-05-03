@@ -2,6 +2,8 @@ from .. import db
 from datetime import datetime
 from sqlalchemy import column
 import statistics
+from statistics import mean
+
 class Poema(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     usuarioid = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)
@@ -16,7 +18,8 @@ class Poema(db.Model):
     def __repr__(self):
         return '< Poema: %r %r >' % (self.usuarioid, self.titulo, self.cuerpo, self.fecha_hora)
     #Convertir objeto en JSON
-    def to_json(self):
+    
+    def promedio_puntaje(self):
         lista_calificacion = []
         if len(self.calificaciones) == 0:
             mean = 0
@@ -26,13 +29,18 @@ class Poema(db.Model):
                 lista_calificacion.append(puntaje)
             mean = statistics.mean(lista_calificacion)
 
+            return mean
+    
+    def to_json(self):
         poema_json = {
             'id': self.id,
             'titulo': str(self.titulo),
             'cuerpo': str(self.cuerpo),
             'usuario': self.usuario.to_json(),
-            'fecha_hora': str(self.fecha_hora.strftime("%d-%m-%Y"))
-            'calificaciones': 
+            'fecha_hora': str(self.fecha_hora.strftime("%d-%m-%Y")),
+            'calificaciones': [calificacion.to_json() for calificacion in self.calificaciones],
+            'promedio_calificacion': self.promedio_puntaje()
+            
         }
         return poema_json
 
