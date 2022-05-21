@@ -11,7 +11,7 @@ auth = Blueprint('auth', __name__, url_prefix='/auth')
 def login():
     usuario = db.session.query(UsuarioModel).filter(UsuarioModel.email == request.get_json().get("email")).first_or_404()
     #Valida la contraseña
-    if usuario.validate_pass(request.get_json().get("password")):
+    if usuario.validate_pass(request.get_json().get("contraseña")):
         #Genera un nuevo token
         #Pasa el objeto professor como identidad
         access_token = create_access_token(identity=usuario)

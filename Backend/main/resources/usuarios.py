@@ -6,7 +6,7 @@ from main.models import CalificacionModel
 from main.models import PoemaModel
 from sqlalchemy import func
 from datetime import *
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 from main.auth.decoradores import admin_required
 
 class Usuario(Resource):
@@ -14,23 +14,34 @@ class Usuario(Resource):
         usuario = db.session.query(UsuarioModel).get_or_404(id)
         return usuario.to_json()
     #Eliminar recurso
+    @jwt_required()
     def delete(self, id):
+        id_usuario = get_jwt_identity()
         usuario = db.session.query(UsuarioModel).get_or_404(id)
-        db.session.delete(usuario)
-        db.session.commit()
-        return '', 204
+        claims = get_jwt()
+        if claims['rol'] == "admin" or id_usuario == id:
+            db.session.delete(usuario)
+            db.session.commit()
+            return '', 204
+        else:
+            return 'Este usuario no puede realizar esa acción', 403
     #Modificar recurso
+    @jwt_required()
     def put(self, id):
-        usuario = db.session.query(UsuarioModel).get_or_404(id)
-        data = request.get_json().items()
-        for key, value in data:
-            setattr(usuario, key, value)
-        db.session.add(usuario)
-        db.session.commit()
-        return usuario.to_json() , 201
+        id_usuario = get_jwt_identity()
+        claims = get_jwt()
+        if claims['rol'] == "admin" or id_usuario == id:
+            usuario = db.session.query(UsuarioModel).get_or_404(id)
+            data = request.get_json().items()
+            for key, value in data:
+                setattr(usuario, key, value)
+                db.session.add(usuario)
+                db.session.commit()
+            return usuario.to_json() , 201
 
 
 class Usuarios(Resource):
+    @admin_required
     def get(self):
         page = 1
         per_page = 10
@@ -71,7 +82,7 @@ class Usuarios(Resource):
                   })
 
    
-
+    @admin_required
     def post(self):
         usuario = UsuarioModel.from_json(request.get_json())
         db.session.add(usuario)
