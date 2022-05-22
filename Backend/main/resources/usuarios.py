@@ -7,37 +7,31 @@ from main.models import PoemaModel
 from sqlalchemy import func
 from datetime import *
 from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
-from main.auth.decoradores import admin_required
+from main.auth.decoradores import admin_required, admin_required_or_poeta_required
 
 class Usuario(Resource):
+    @jwt_required()
     def get(self, id):
         usuario = db.session.query(UsuarioModel).get_or_404(id)
         return usuario.to_json()
     #Eliminar recurso
-    @jwt_required()
+    @admin_required_or_poeta_required
     def delete(self, id):
-        id_usuario = get_jwt_identity()
         usuario = db.session.query(UsuarioModel).get_or_404(id)
-        claims = get_jwt()
-        if claims['rol'] == "admin" or id_usuario == id:
-            db.session.delete(usuario)
-            db.session.commit()
-            return '', 204
-        else:
-            return 'Este usuario no puede realizar esa acción', 403
+        db.session.delete(usuario)
+        db.session.commit()
+        
     #Modificar recurso
-    @jwt_required()
+    @admin_required_or_poeta_required
     def put(self, id):
-        id_usuario = get_jwt_identity()
-        claims = get_jwt()
-        if claims['rol'] == "admin" or id_usuario == id:
-            usuario = db.session.query(UsuarioModel).get_or_404(id)
-            data = request.get_json().items()
-            for key, value in data:
-                setattr(usuario, key, value)
-                db.session.add(usuario)
-                db.session.commit()
-            return usuario.to_json() , 201
+        usuario = db.session.query(UsuarioModel).get_or_404(id)
+        data = request.get_json().items()
+        for key, value in data:
+            setattr(usuario, key, value)
+            db.session.add(usuario)
+            db.session.commit()
+    
+        return usuario.to_json() , 201
 
 
 class Usuarios(Resource):
