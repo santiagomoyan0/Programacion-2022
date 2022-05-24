@@ -7,7 +7,7 @@ from main.models import PoemaModel
 from sqlalchemy import func
 from datetime import *
 from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
-from main.auth.decoradores import admin_required, admin_required_or_poeta_required
+from main.auth.decoradores import admin_required
 
 class Usuario(Resource):
     @jwt_required()
@@ -15,24 +15,33 @@ class Usuario(Resource):
         usuario = db.session.query(UsuarioModel).get_or_404(id)
         return usuario.to_json()
     #Eliminar recurso
-    @admin_required_or_poeta_required
+    @jwt_required()
     def delete(self, id):
+        id_usuario = get_jwt_identity()
         usuario = db.session.query(UsuarioModel).get_or_404(id)
-        db.session.delete(usuario)
-        db.session.commit()
-        
-    #Modificar recurso
-    @admin_required_or_poeta_required
-    def put(self, id):
-        usuario = db.session.query(UsuarioModel).get_or_404(id)
-        data = request.get_json().items()
-        for key, value in data:
-            setattr(usuario, key, value)
-            db.session.add(usuario)
+        claims = get_jwt()
+        if claims['rol'] == "admin" or id_usuario == int(id):
+            db.session.delete(usuario)
             db.session.commit()
+            return '', 204
+        else:
+            return 'Este usuario no puede realizar esa acción', 403
+    #Modificar recurso
+    @jwt_required()
+    def put(self, id):
+        id_usuario = get_jwt_identity()
+        claims = get_jwt()
+        if claims['rol'] == "admin" or id_usuario == int(id):
+            usuario = db.session.query(UsuarioModel).get_or_404(id)
+            data = request.get_json().items()
+            for key, value in data:
+                setattr(usuario, key, value)
+                db.session.add(usuario)
+                db.session.commit()
     
-        return usuario.to_json() , 201
-
+                return usuario.to_json() , 201
+        else:
+            return 'Este usuario no puede realizar esa acción', 403
 
 class Usuarios(Resource):
     @admin_required

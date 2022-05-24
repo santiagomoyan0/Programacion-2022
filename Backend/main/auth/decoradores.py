@@ -18,28 +18,7 @@ def admin_required(fn):
         else:
             return 'Only admins can access', 403
     return wrapper
-def admin_required_or_poeta_required(fn):
-    @wraps(fn)
-    def wrapper(*args, **kwargs):
-        id_usuario = verify_jwt_in_request()
-        claims = get_jwt()
-        if claims['rol'] == "admin" or id_usuario == id:
-                return fn(*args, **kwargs)
-        else:
-            return 'Only admins or poeta can access', 403
-    return wrapper
 
-def poeta_required(fn):
-    @wraps(fn)
-    def wrapper(*args, **kwargs):
-        verify_jwt_in_request()
-        claims = get_jwt()
-        if claims['rol'] == 'poeta':
-            return fn(*args, **kwargs)
-        else:
-            return 'Only poetas can access', 403
-       
-    return wrapper  
 
 
 #Define el atributo que se utilizará para identificar el usuario
