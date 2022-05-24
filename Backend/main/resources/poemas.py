@@ -96,8 +96,8 @@ class Poemas(Resource):
             if claims["rol"] == "admin":
                 return jsonify({"poemas":[poema.to_json() for poema in poemas.items],
                 "total": poemas.total, "pages": poemas.pages, "page": page})
-        else:
-            return jsonify({"poemas":[poema.to_json() for poema in poemas.items],
+            else:
+                return jsonify({"poemas":[poema.to_json() for poema in poemas.items],
                 "total": poemas.total, "pages": poemas.pages, "page": page})
             
     
