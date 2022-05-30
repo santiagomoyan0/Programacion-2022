@@ -1,4 +1,6 @@
-Bienvenido {{usuario.nombre}} {{usuario.email}}!
+Bienvenido {{usuario.nombre}} tu {{poema.titulo}} ha obtenido una calificacion!
+
+{{usuario_calificacion.nombre}} lo ha calificado.
 
 Gracias por registrarte en nuestro sistema.
 
