@@ -8,7 +8,7 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <link rel="stylesheet" href="styles.css">
-    <body class="bg-info">
+    <body class="bg-primary">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container">
         <i class="bi bi-journal-arrow-up"></i>
@@ -47,7 +47,7 @@
             </li>
             
             <li class="nav-item">
-              <a class="nav-link" href="#">Poeta@mail.com</a>
+              <a class="nav-link" href="#">Admin@mail.com</a>
             </li>
             <li class="nav-item">
           </ul>
@@ -56,51 +56,36 @@
     </nav>
 
     <div class="container">
-        <div class="d-flex justify-content-center bg-info">
-            <h3>Inicia sesion</h3>
-        </div>
-        <div class="d-flex justify-content-center mt-4">
-            <div class="col-md-4 bg-light p-4 rounded ">
-                
-                  <form class="pt-3" action="{{ url_for('app.login') }}" method="POST">
-                    <div class="mb-3">
-                      <i class="far fa-envelope"></i>
-                      <label for="exampleInputEmail1" class="form-label">INDICA TU EMAIL</label>
-                      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                      <div id="emailHelp" class="form-text">No compartiremos tu email con nadie</div> 
-                      
+                    <div class="d-flex justify-content-center bg-primary">
+                        <i class="bi bi-person-plus-fill"></i>
+                        <h3>Añadir Usuario</h3>
                     </div>
-                    <div class="mb-3">
-                      <i class="fas fa-key"></i>
-                      <label for="exampleInputPassword1" class="form-label">INDICA TU CONTRASEÑA</label>
-                      <input type="password" class="form-control" id="exampleInputPassword1">
-                      
-                    </div>
-        <div class="mb-3 form-check">
-          <input type="checkbox" class="form-check-input" id="exampleCheck1">
-          <label class="form-check-label" for="exampleCheck1">Verificar</label>
-        </div>
-      </form>
-      <div class="btn-group d-flex justify-content-center bg-primary mt-4" role="group" aria-label="Basic example">
-        <button type="button" class="btn btn-success">Iniciar sesion</button>
-        </div>
+                    <div class="d-flex justify-content-center mt-4">
+                        <div class="col-md-4 bg-light p-4 rounded ">
+                            <form>
+                                <div class="mb-3">
+                                    <i class="bi bi-person-check-fill"></i>
 
-      <div class="btn-group d-flex justify-content-center bg-primary mt-4" role="group" aria-label="Basic example">
-        <button type="button" class="btn btn-primary">¿Olvidaste tu contraseña?</button>
-     
+                                  <label for="exampleInputEmail1" class="form-label">Alias</label>
+                                  <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                </div>
+                                <div class="mb-3">
+                                    <i class="bi bi-envelope-plus"></i>
+                                      <label for="exampleInputEmail1" class="form-label">Email</label>
+                                      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                    </div>
+                                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success">Añadir Usuario</button>
+                    </div>
+                  </form>
+                  
+            </div>
         </div>
-      <div class="btn-group d-flex justify-content-center bg-primary mt-4" role="group" aria-label="Basic example">
-        <a href="" class="btn btn-primary">
-         <button type="button" class="btn btn-primary">¿No tienes cuenta? Registrate</button>
-  
-        </a>
-       
-        </div>
-  </div>
-  </div>
-  
-  
-  </div>
+    
+ 
+    </div>
+    
 
 <!-- Optional JavaScript; choose one of the two! -->
 
@@ -114,3 +99,4 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
     -->
   </body>
+</html>

@@ -1,7 +1,10 @@
 from main import create_app
 import os
+from dotenv import load_dotenv
 
 app = create_app()
+
+load_dotenv()
 
 app.app_context().push()
 
