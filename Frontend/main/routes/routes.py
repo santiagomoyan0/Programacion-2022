@@ -1,4 +1,7 @@
-from flask import Blueprint, redirect, url_for, render_template
+from flask import Blueprint, redirect, url_for, render_template, request, Response, make_response
+import requests
+import json
+
 
 app = Blueprint('app', __name__, url_prefix='/')
 
@@ -20,8 +23,27 @@ def upload_poem():
 
 @app.route('/login')
 def login():
-    return render_template('inicio_sesion.html')
+    
+    api_url = "http://127.0.0.1:6000/auth/login"
 
+    data = {"email": "danilos@mail.com", "contraseña": "1234"}
+
+    headers = {"Content-Type": "application/json"}
+
+    response = requests.post(api_url, json=data, headers=headers)
+    
+    print(response.status_code)
+    print(response.text)
+
+    token = json.loads(response.text)
+    token = token["access_token"]
+    print(token)
+
+    resp = make_response(render_template("inicio_sesion.html"))
+    resp.set_cookie("access_token", token)
+    return resp
+    #return render_template('inicio_sesion.html')
+    
 @app.route('/user-poems')
 def user_poems():
     return render_template('mis_poemas.html')

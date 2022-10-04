@@ -9,6 +9,7 @@ def create_app():
     app = Flask(__name__)
     #Cargar variables de entorno
     load_dotenv()
+    
     app.register_blueprint(routes.app)
     #
     #Aquí se inicializarán el resto de los módulos de la aplicación
