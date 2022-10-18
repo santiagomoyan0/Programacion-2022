@@ -7,6 +7,26 @@ app = Blueprint('app', __name__, url_prefix='/')
 
 @app.route('/')
 def index():
+    api_url = "http://127.0.0.1:6000/poemas"
+
+    data = { "page": 1,"per_page" : 10 }
+
+    jwt = request.cookies.get("acces_token")
+
+    headers = {"Content-Type" : "application/json", "Authorization":"Bearer {}".format(jwt)}
+
+    print (jwt)
+
+    response = requests.get(api_url, json=data, headers=headers)
+
+    print(response.status_code)
+
+    print(response.text)
+
+    poemas = json.loads(response.text)
+
+    print (poemas)
+    
     return render_template('vista_principal.html')
 
 @app.route('/perfil')
@@ -46,7 +66,27 @@ def login():
     
 @app.route('/user-poems')
 def user_poems():
-    return render_template('mis_poemas.html')
+    api_url = "http://127.0.0.1:6000/poemas"
+
+    data = {"page": 1, "per_page": 5}
+
+    jwt = request.cookies.get("access_token")
+    print(jwt)
+
+    headers = {"Content-Type": "application/json", "Authorization": "BEARER {}".format(jwt)}
+
+    response = requests.get(api_url, json=data, headers=headers)
+
+    print(response.status_code)
+
+    poemas = json.loads(response.text)
+
+    lista_poemas = poemas["poemas"]
+    for poema in lista_poemas:
+        print(poema)  
+    print(type(lista_poemas))
+
+    return render_template('mis_poemas.html', poemas=lista_poemas)
 
 @app.route('/qualify')
 def qualify():
