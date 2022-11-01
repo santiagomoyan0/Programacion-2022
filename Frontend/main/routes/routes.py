@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, url_for, render_template, request, Response, make_response
+from flask import Blueprint, redirect, url_for, render_template, request, Response, make_response, current_app
 import requests
 import json
 
@@ -11,7 +11,7 @@ def index():
 
     data = { "page": 1,"per_page" : 10 }
 
-    jwt = request.cookies.get("acces_token")
+    jwt = request.cookies.get("access_token")
 
     headers = {"Content-Type" : "application/json", "Authorization":"Bearer {}".format(jwt)}
 
@@ -27,7 +27,7 @@ def index():
 
     print (poemas)
     
-    return render_template('vista_principal.html')
+    return render_template('vista_principal.html',poemas=poemas["poemas"])
 
 @app.route('/perfil')
 def perfil():
@@ -37,35 +37,63 @@ def perfil():
 def view_poem():
     return render_template('ver_poema.html')
 
-@app.route('/upload-poem')
+@app.route('/upload-poem', methods=['GET', 'POST'])
 def upload_poem():
-    return render_template('subir_poema.html')
+    if request.cookies.get('access_token'):
+        if request.method == 'POST':
+            titulo = request.form['titulo']
+            cuerpo = request.form['cuerpo']
+            print(titulo)
+            print(cuerpo)
+            jwt = request.cookies.get("access_token")
+            print(jwt)
+            id = request.cookies.get("id")
+            print(id)
+            data = {"usuarioid": id, "titul0": titulo, "cuerpo": cuerpo}
+            headers = {"Content-Type" : "application/json", "Authorization": f"Bearer {jwt}"}
+            response = requests.post(f'{current_app.config["API_URL"]}/poemas', json=data, headers=headers)
+            print(response)
+        return render_template('subir_poema.html')
+    else:
+        return redirect(url_for('app.login'))
 
-@app.route('/login')
+
+@app.route('/login', methods=['GET','POST'])
 def login():
-    
-    api_url = "http://127.0.0.1:6000/auth/login"
+    if request.method == 'POST':
+        email= request.form['email']
+        password= request.form['contraseña']
+        print(email)
+        print(password)
+        api_url = "http://127.0.0.1:6000/auth/login"
 
-    data = {"email": "danilos@mail.com", "contraseña": "1234"}
+        data = {"email": "danilos@mail.com", "contraseña": "1234"}
 
-    headers = {"Content-Type": "application/json"}
+        headers = {"Content-Type": "application/json"}
 
-    response = requests.post(api_url, json=data, headers=headers)
-    
-    print(response.status_code)
-    print(response.text)
+        response = requests.post(api_url, json=data, headers=headers)
+        if response.status_code == 200:
+            print(response.status_code)
 
-    token = json.loads(response.text)
-    token = token["access_token"]
-    print(token)
+            print(response.text)
 
-    resp = make_response(render_template("inicio_sesion.html"))
-    resp.set_cookie("access_token", token)
-    return resp
-    #return render_template('inicio_sesion.html')
+            token = json.loads(response.text)
+
+            token = token["access_token"]
+            
+            print(token)
+
+            resp = make_response(redirect(url_for("main.index")))
+            resp.set_cookie("access_token", token)
+            return resp
+        else:
+            return render_template("inicio_sesion.html")
+    return redirect(url_for("apps.index"))
+   
     
 @app.route('/user-poems')
 def user_poems():
+
     api_url = "http://127.0.0.1:6000/poemas"
 
     data = {"page": 1, "per_page": 5}
@@ -82,11 +110,8 @@ def user_poems():
     poemas = json.loads(response.text)
 
     lista_poemas = poemas["poemas"]
-    for poema in lista_poemas:
-        print(poema)  
-    print(type(lista_poemas))
 
-    return render_template('mis_poemas.html', poemas=lista_poemas)
+    return render_template('mis_poemas.html', jwt = jwt, poemas = lista_poemas)
 
 @app.route('/qualify')
 def qualify():
