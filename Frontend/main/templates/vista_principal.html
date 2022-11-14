@@ -1,27 +1,45 @@
 {% extends "base.html" %}
   
     {% block content %}
+
     <body class="bg-light">
 
     <div class="container">
 
         <div class="d-flex justify-content-center bg-primary">
+        
         <i class="bi bi-book"></i>
           <h3>Poemas Para Ver</h3>
         </div>
-        <div class = "row">
+        <div class = "row"> 
+          {% for poema in poemas %}
         <div class="col-md-4">
           <div class="card">
             <img src="https://via.placeholder.com/100x100" class="card-img-top" alt="...">
             <div class="d-grid gap-2">
-              <h5 class="card-title">Nombre Poema</h5>
-              <h5 class="card-title">Cuerpo Poema</h5>
-              <a href="#" class="btn btn-primary">Ver Poema</a>
+              <h5 class="card-title">{{poema.titulo}}</h5>
+              <h5 class="card-title">{{poema.cuerpo}}</h5>
+              <a href="/view-poem" class="btn btn-primary">Ver Poema</a>
               
              </div>
              </div>
           </div>
-          <div class="col-md-4">
+         {% endfor %}
+                  
+          <div class="btn-toolbar d-flex justify-content-center " role="toolbar" aria-label="Toolbar with button groups" style= "width:100%">
+            <div class="btn-group me-4" role="group" aria-label="First group">
+              <button type="button" class="btn btn-primary" style="margin: 0 7px">1</button>
+              <button type="button" class="btn btn-primary" style="margin: 0 7px">2</button>
+              <button type="button" class="btn btn-primary" style="margin: 0 7px">3</button>
+              <button type="button" class="btn btn-primary"style="margin: 0 7px">4</button>
+              <button type="button" class="btn btn-primary"style="margin: 0 7px">5</button>
+              <button type="button" class="btn btn-primary" style="margin: 0 7px">6</button>
+              <button type="button" class="btn btn-primary" style="margin: 0 7px">...</button>
+            </div>
+          </div>
+        {% endblock %}
+         
+         <!-- <div class="col-md-4">
             <div class="card">
               <img src="https://via.placeholder.com/100x100" class="card-img-top" alt="...">
               <div class="d-grid gap-2">
@@ -42,7 +60,7 @@
                     
                </div>
                </div>
-               </div>
+               </div>""""""
          </div>
          
          <div class="col-md-4">
@@ -89,17 +107,5 @@
   
   
     </div>
-  
-      <div class="btn-toolbar d-flex justify-content-center " role="toolbar" aria-label="Toolbar with button groups" style= "width:100%">
-        <div class="btn-group me-4" role="group" aria-label="First group">
-          <button type="button" class="btn btn-primary" style="margin: 0 7px">1</button>
-          <button type="button" class="btn btn-primary" style="margin: 0 7px">2</button>
-          <button type="button" class="btn btn-primary" style="margin: 0 7px">3</button>
-          <button type="button" class="btn btn-primary"style="margin: 0 7px">4</button>
-          <button type="button" class="btn btn-primary"style="margin: 0 7px">5</button>
-          <button type="button" class="btn btn-primary" style="margin: 0 7px">6</button>
-          <button type="button" class="btn btn-primary" style="margin: 0 7px">...</button>
-        </div>
-      </div>
-    {% endblock %}
-     
+   -->
+ 

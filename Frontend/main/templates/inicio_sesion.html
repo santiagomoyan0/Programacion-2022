@@ -10,29 +10,29 @@
         <div class="d-flex justify-content-center mt-4">
             <div class="col-md-4 bg-light p-4 rounded ">
                 
-                  <form class="pt-3" action="{{ url_for('app.login') }}" method="POST" action="/login">
+                  <form class="pt-3" method="POST" action="/login">
                     <div class="mb-3">
                       <i class="far fa-envelope"></i>
                       <label for="exampleInputEmail1" class="form-label">INDICA TU EMAIL</label>
-                      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                      <input name="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                       <div id="emailHelp" class="form-text">No compartiremos tu email con nadie</div> 
                       
                     </div>
                     <div class="mb-3">
                       <i class="fas fa-key"></i>
                       <label for="exampleInputPassword1" class="form-label">INDICA TU CONTRASEÑA</label>
-                      <input type="password" class="form-control" id="exampleInputPassword1">
+                      <input name="contraseña" type="password" class="form-control" id="exampleInputPassword1">
                       
                     </div>
         <div class="mb-3 form-check">
           <input type="checkbox" class="form-check-input" id="exampleCheck1">
           <label class="form-check-label" for="exampleCheck1">Verificar</label>
         </div>
-      </form>
+      
       <div class="btn-group d-flex justify-content-center bg-primary mt-4" role="group" aria-label="Basic example">
-        <a class="btn btn-success"href="{{ url_for('app.index') }}">Iniciar sesion</a>
+        <button type="submit">Iniciar sesion</button>
         </div>
-
+      </form>
       <div class="btn-group d-flex justify-content-center bg-primary mt-4" role="group" aria-label="Basic example">
         <button type="button" class="btn btn-primary">¿Olvidaste tu contraseña?</button>
      
