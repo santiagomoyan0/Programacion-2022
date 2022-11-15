@@ -13,12 +13,12 @@
         <div class="card">
           <img src="https://via.placeholder.com/100x100" class="card-img-top" alt="...">
           <div class="d-grid gap-2">
-            <h5 class="card-title">Titulo:</h5>
-            <h5 class="card-title">Autor:</h5>
-            <h5 class="card-title">Cuerpo: </h5>
-            <h5 class="card-title">Fecha de creacion: </h5>
+            <h5 class="card-title">Titulo:{{poema.titulo}}</h5>
+            <h5 class="card-title">Autor:{{poema.usuario.nombre}}</h5>
+            <h5 class="card-title">Cuerpo:{{poema.cuerpo}}</h5>
+            <h5 class="card-title">Fecha de creacion:{{poema.fecha_hora}}</h5>
             <div class="d-grid gap-2">
-              <a href="/qualify"" class="btn btn-success">Calificar Poema</a>
+              <a href="{{url_for('app.qualify')}}" class="btn btn-success">Calificar Poema</a>
            </div>
                      </div>
                      </div>

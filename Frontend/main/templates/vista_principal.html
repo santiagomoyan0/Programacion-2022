@@ -19,7 +19,7 @@
             <div class="d-grid gap-2">
               <h5 class="card-title">{{poema.titulo}}</h5>
               <h5 class="card-title">{{poema.cuerpo}}</h5>
-              <a href="/view-poem" class="btn btn-primary">Ver Poema</a>
+              <a href="{{url_for('app.view_poem', id=poema.id)}}" class="btn btn-primary">Ver Poema</a>
               
              </div>
              </div>

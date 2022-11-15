@@ -6,6 +6,7 @@
 <div class="d-flex justify-content-center bg-primary">
     <h3>Mis Poemas</h3>
     <i class="bi bi-book-half"></i>
+   
 </div>
 
 </div>
@@ -19,30 +20,22 @@
       <th scope="col">Fecha</th>
     </tr>
   </thead>
+  {% for poema in poemas %}
   <tbody>
     <tr>
-      <th scope="row">1</th>
-      <td>Name 1</td>
-      <td>Seis Parrafos</td>
-      <td>22/05/2022</td>
+      <th scope="row">{{poema.id}}</th>
+      <td>{{poema.titulo}}</td>
+      <td>{{poema.cuerpo}}</td>
+      <td>{{poema.fecha_hora}}</td>
     </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Name 2</td>
-      <td>Cinco Parrafos</td>
-      <td>13/06/2022</td>
+    
     </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Jose</td>
-      <td>Diez parrafos</td>
-      <td>12/05/2022</td>  
-    </tr>
+  {% endfor %}
   </tbody>
 </table>
 <div class="d-flex justify-content-around mt-4">
-    <button class="btn btn-primary" type="button">Editar</button>
-    <button class="btn btn-success" type="button">Subir Poema</button>
+    <button class="btn btn-primary" >Editar</button>
+    <a class="btn btn-success" type ="button" href="{{url_for('app.upload_poem')}}">Subir Poema</a>
     <button class="btn btn-warning" type="button">Eliminar Poema</button>
   </div>
 

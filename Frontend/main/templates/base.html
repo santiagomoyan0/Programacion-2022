@@ -32,21 +32,21 @@
               <ul class="dropdown-menu my-3" aria-labelledby="navbarDropdown">
                 <li>
 
-                    <a class="dropdown-item d-grid" href="#">
+                    <a class="dropdown-item d-grid" href="{{url_for('app.perfil')}}">
                         <div class="btn btn-info" href="{{url_for('app.perfil')}}">Editar perfil</div>
                     </a>
 
 
                   </li>
                 <li>
-                    <a class="dropdown-item d-grid" href="#">
-                      <div class="btn btn-warning">Configuracion</div>
+                    <a class="dropdown-item d-grid" href="{{url_for('app.user_poems')}}">
+                      <div class="btn btn-warning">Mis Poemas</div>
                     </a>
                   </li>
                 <li><hr class="dropdown-divider"></li>
                 <li>
-                    <a class="dropdown-item d-grid" href="#">
-                      <div class="btn btn-danger" href="{{url_for('app.login')}}">Cerrar sesion</div>
+                    <a class="dropdown-item d-grid" href="{{url_for('app.logout')}}">
+                      <div class="btn btn-danger" href="{{url_for('app.logout')}}">Cerrar sesion</div>
                     </a>
                   </li>
               </ul>
