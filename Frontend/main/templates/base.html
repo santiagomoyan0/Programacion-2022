@@ -18,7 +18,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container">
         <i class="bi bi-journal-arrow-up"></i>
-        <a href="" class="navbar-brand">PoemsLooks</a>
+        <a href="{{url_for('app.index')}}" class="navbar-brand">PoemsLooks</a>
         <i class="fa-solid fa-book"></i>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -41,6 +41,11 @@
                 <li>
                     <a class="dropdown-item d-grid" href="{{url_for('app.user_poems')}}">
                       <div class="btn btn-warning">Mis Poemas</div>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item d-grid" href="{{url_for('app.upload_poem')}}">
+                      <div class="btn btn-success">Crear Poema</div>
                     </a>
                   </li>
                 <li><hr class="dropdown-divider"></li>

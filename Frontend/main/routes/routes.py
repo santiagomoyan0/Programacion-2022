@@ -20,7 +20,6 @@ def index():
     print(response.status_code)
     print(response.text)
 
-    #obtener poemas en json
     poemas = json.loads(response.text)
     print (poemas)
 
