@@ -6,25 +6,39 @@ app = Blueprint('app', __name__, url_prefix='/')
 
 @app.route('/')
 def index():
-
+     
     api_url = "http://127.0.0.1:6000/poemas"
 
     data = { "page": 1,"per_page" : 10 }
     
-    jwt = request.cookies.get("access_token")
 
-    headers = {"Content-Type" : "application/json", "Authorization":"Bearer {}".format(jwt)}
-    print (jwt)
+    headers = {"Content-Type" : "application/json"}
 
     response = requests.get(api_url, json=data, headers=headers)
-    print(response.status_code)
-    print(response.text)
+    print(response)
 
     poemas = json.loads(response.text)
-    print (poemas)
+    print(poemas)
+    return render_template('vista_principal.html', poemas=poemas['poemas'])
 
-    return render_template('vista_principal.html', poemas = poemas['poemas'])
 
+@app.route('/home')
+def main():
+    if request.cookies.get('access_token'):
+        data = { "page": 1, "per_page": 5 }
+        if 'page' in request.args:
+            data["page"] = request.args.get('page', '')
+        api_url = f'{current_app.config["API_URL"]}/poemas' 
+        headers = { "Content-Type": "application/json" }
+        response = requests.get(api_url, json=data, headers=headers)
+        poems = json.loads(response.text)
+        pagination = {}
+        pagination["pages"] = json.loads(response.text)["pages"]
+        pagination["current_page"] = json.loads(response.text)["page"]
+        return render_template('vista_principal.html', poemas=poemas["poemas"], pagination=pagination)  
+         
+    else:
+        return redirect(url_for('app.login'))
 @app.route('/perfil')
 def perfil():
     return render_template('mi_perfil.html')
@@ -177,3 +191,26 @@ def delete_poem(id):
         headers = {"Content-Type" : "application/json"}
         response = requests.delete(api_url, headers=headers)
         return response"""
+
+@app.route('/main-user')
+def user_main():
+    jwt = request.cookies.get("access_token") 
+    if jwt:
+
+        api_url = "http://127.0.0.1:6000/poemas"
+
+        data = { "page": 1,"per_page" : 10 }
+    
+        jwt = request.cookies.get("access_token")
+
+        headers = {"Content-Type" : "application/json", "Authorization":"Bearer {}".format(jwt)}
+        print (jwt)
+
+        response = requests.get(api_url, json=data, headers=headers)
+        print(response.status_code)
+        print(response.text)
+
+        poemas = json.loads(response.text)
+        print (poemas)
+
+        return render_template('vista_principal.html', poemas = poemas['poemas'])
